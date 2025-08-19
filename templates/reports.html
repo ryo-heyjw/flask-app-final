@@ -1,0 +1,48 @@
+<!-- templates/reports.html (新規作成) -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>報告一覧 - 業務管理アプリ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>報告一覧</h1>
+        <p><a href="{{ url_for('index') }}">&larr; 報告フォームに戻る</a></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>日付</th>
+                    <th>チーム名</th>
+                    <th>担当者</th>
+                    <th>生産本数</th>
+                    <th>不良品</th>
+                    <th>路面状況</th>
+                    <th>特記事項</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.date }}</td>
+                    <td>{{ report.team }}</td>
+                    <td>{{ report.person_in_charge }}</td>
+                    <td>{{ report.volume }}</td>
+                    <td>{{ report.defects }}</td>
+                    <td>{{ report.condition }}</td>
+                    <td>{{ report.notes }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7">まだ報告はありません。</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
