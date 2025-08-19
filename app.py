@@ -37,9 +37,16 @@ app.secret_key = 'supersecretkey_for_db'
 class Report(db.Model):
     id = db.Column(db.Integer, primary_key=True) # 各行を識別するためのユニークなID
     report_date = db.Column(db.String(80), nullable=False)
+    site_name = db.Column(db.String(255), nullable=False)
     team = db.Column(db.String(80), nullable=False)
     person_in_charge = db.Column(db.String(80), nullable=False)
-    volume = db.Column(db.String(80), nullable=False)
+    volume = db.Column(db.Integer, nullable=False) # ユーザーの要望により、プルダウンから数値入力に変更。既存のDBテーブルで型変更が必要な場合は、マイグレーションツール（例: Alembic）の使用を検討してください。
+    arranged_quantity = db.Column(db.String(80), nullable=True)
+    length_breakdown = db.Column(db.String(255), nullable=True)
+    good_products = db.Column(db.String(255), nullable=True)
+    site_inventory = db.Column(db.String(255), nullable=True)
+    delivery_due_date = db.Column(db.String(255), nullable=True)
+    delivery_destination = db.Column(db.String(255), nullable=True)
     defects = db.Column(db.Integer, nullable=False)
     condition = db.Column(db.String(80), nullable=False)
     notes = db.Column(db.Text, nullable=True)
@@ -56,7 +63,6 @@ with app.app_context():
 MASTER_DATA = {
     'teams': ["永野", "檀上", "稲垣", "社長"],
     'persons': ["永野", "稲垣", "檀上", "社長", "貞重", "眞鍋", "村田"],
-    'volumes': ["84本", "90本"],
     'conditions': ["良好", "普通", "ぬかるみ", "積雪"]
 }
 
@@ -82,9 +88,16 @@ def reports():
 def submit():
     # フォームからデータを取得
     date = request.form.get('report_date')
+    site_name = request.form.get('site_name')
     team = request.form.get('team')
     person_in_charge = request.form.get('person_in_charge')
-    volume = request.form.get('volume')
+    volume = int(request.form.get('volume'))
+    arranged_quantity = request.form.get('arranged_quantity')
+    length_breakdown = request.form.get('length_breakdown')
+    good_products = request.form.get('good_products')
+    site_inventory = request.form.get('site_inventory')
+    delivery_due_date = request.form.get('delivery_due_date')
+    delivery_destination = request.form.get('delivery_destination')
     defects = request.form.get('defects')
     condition = request.form.get('condition')
     notes = request.form.get('notes')
@@ -92,9 +105,16 @@ def submit():
     # 新しい報告オブジェクトを作成
     new_report = Report(
         report_date=date,
+        site_name=site_name,
         team=team,
         person_in_charge=person_in_charge,
         volume=volume,
+        arranged_quantity=arranged_quantity,
+        length_breakdown=length_breakdown,
+        good_products=good_products,
+        site_inventory=site_inventory,
+        delivery_due_date=delivery_due_date,
+        delivery_destination=delivery_destination,
         defects=int(defects), # 文字列を整数に変換
         condition=condition,
         notes=notes

@@ -17,9 +17,16 @@
             <thead>
                 <tr>
                     <th>日付</th>
+                    <th>現場名</th>
                     <th>チーム名</th>
                     <th>担当者</th>
-                    <th>生産本数</th>
+                    <th>伐採本数</th>
+                    <th>並べ本数</th>
+                    <th>長さ内訳</th>
+                    <th>良品</th>
+                    <th>現場在庫</th>
+                    <th>納品予定日</th>
+                    <th>納品予定先</th>
                     <th>不良品</th>
                     <th>路面状況</th>
                     <th>特記事項</th>
@@ -29,16 +36,23 @@
                 {% for report in reports %}
                 <tr>
                     <td>{{ report.date }}</td>
+                    <td>{{ report.site_name }}</td>
                     <td>{{ report.team }}</td>
                     <td>{{ report.person_in_charge }}</td>
                     <td>{{ report.volume }}</td>
+                    <td>{{ report.arranged_quantity }}</td>
+                    <td>{{ report.length_breakdown }}</td>
+                    <td>{{ report.good_products }}</td>
+                    <td>{{ report.site_inventory }}</td>
+                    <td>{{ report.delivery_due_date }}</td>
+                    <td>{{ report.delivery_destination }}</td>
                     <td>{{ report.defects }}</td>
                     <td>{{ report.condition }}</td>
                     <td>{{ report.notes }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="7">まだ報告はありません。</td>
+                    <td colspan="14">まだ報告はありません。</td>
                 </tr>
                 {% endfor %}
             </tbody>
